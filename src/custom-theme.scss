@@ -4,13 +4,18 @@
 @use '@angular/material' as mat;
 
 html {
+  color-scheme: light dark;
   @include mat.theme((
-    color: (
-      theme-type: light,
-      primary: mat.$azure-palette,
-      tertiary: mat.$blue-palette,
-    ),
+    color: mat.$violet-palette,
     typography: Roboto,
     density: 0,
   ));
+}
+
+body.dark-theme {
+  color-scheme: dark;
+}
+
+body.light-theme {
+  color-scheme: light;
 }
