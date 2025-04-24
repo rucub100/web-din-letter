@@ -72,4 +72,14 @@ export class StartComponent {
       queryParamsHandling: 'merge',
     });
   }
+
+  newDocument() {
+    this.router.navigate(['new'], {
+      queryParamsHandling: 'preserve',
+    });
+  }
+
+  openDocument() {
+    throw new Error('Not implemented');
+  }
 }
