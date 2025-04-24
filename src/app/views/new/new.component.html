@@ -1,9 +1,7 @@
 <app-shell>
-  <div
-    class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)]"
-  >
-    <div
-      class="w-[210mm] h-[297mm] bg-[var(--mat-sys-surface-bright)] shadow-[var(--mat-sys-level1)]"
-    ></div>
-  </div>
+  <app-document
+    [selectedForm]="selectedForm"
+    [infoBlock]="infoBlock"
+    [refLine]="refLine"
+  ></app-document>
 </app-shell>

@@ -6,8 +6,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-type Form = 'A' | 'B';
+import { DINForm } from '../../models/DINForm';
 
 @Component({
   selector: 'app-start',
@@ -25,7 +24,7 @@ type Form = 'A' | 'B';
 export class StartComponent {
   private router = inject(Router);
 
-  private _selectedForm: Form = 'B';
+  private _selectedForm: DINForm = 'B';
   private _refLine = false;
   private _infoBlock = true;
 
@@ -40,10 +39,10 @@ export class StartComponent {
     });
   }
 
-  get selectedForm(): Form {
+  get selectedForm(): DINForm {
     return this._selectedForm;
   }
-  set selectedForm(value: Form) {
+  set selectedForm(value: DINForm) {
     this._selectedForm = value;
     this.router.navigate([], {
       queryParams: { form: value },
