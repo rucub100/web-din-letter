@@ -1,8 +1,13 @@
-<mat-sidenav-container class="w-full h-full">
-  <mat-sidenav [fixedInViewport]="true" mode="side" opened class="max-w-max"
-    >Sidenav</mat-sidenav
+<mat-sidenav-container class="w-full h-full print:contents!">
+  <mat-sidenav
+    [fixedInViewport]="true"
+    mode="side"
+    opened
+    class="max-w-max print:hidden!"
   >
-  <mat-sidenav-content>
+    Sidenav
+  </mat-sidenav>
+  <mat-sidenav-content class="print:contents!">
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

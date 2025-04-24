@@ -1,7 +1,86 @@
 <div
-  class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)]"
+  class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)] print:contents!"
 >
+  <!-- DIN A4 Sheet -->
   <div
-    class="w-[210mm] h-[297mm] bg-[var(--mat-sys-surface-bright)] shadow-[var(--mat-sys-level1)]"
-  ></div>
+    class="flex flex-col w-[210mm] h-[297mm] bg-[var(--mat-sys-surface)] print:bg-transparent shadow-[var(--mat-sys-level1)] print:shadow-none text-[12pt] print:break-after-page print:break-inside-avoid relative"
+  >
+    <!-- Faltmarke 1 -->
+    <div
+      class="absolute top-[105mm] left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+    ></div>
+    <!-- Faltmarke 2 -->
+    <div
+      class="absolute bottom-[87mm] left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+    ></div>
+    <!-- Lochmarke -->
+    <div
+      class="absolute top-[148.5mm] left-[5mm] w-[10mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+    ></div>
+
+    <div
+      class="flex flex-row ml-[20mm] gap-[20mm]"
+      [ngClass]="{
+        'mt-[45mm]': selectedForm === 'B',
+        'mt-[27mm]': selectedForm === 'A'
+      }"
+    >
+      <!-- Anschriftfeld -->
+      <div
+        class="flex flex-col w-[85mm] h-[45mm] pl-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent rounded-[3mm]"
+      >
+        <!-- Rücksendeangabe -->
+        <div class="h-[5mm] text-[8pt]">Rücksendeadresse</div>
+        <!-- Zusatz- und Vermerkzone -->
+        <div class="h-[12.7mm] text-[12pt] leading-none">
+          3. ZVZ <br />
+          2. ZVZ <br />
+          1. ZVZ
+        </div>
+        <!-- Anschriftzone -->
+        <div class="h-[12.7mm] text-[12pt] leading-none">
+          1. AZ <br />
+          2. AZ <br />
+          3. AZ <br />
+          4. AZ <br />
+          5. AZ <br />
+          6. AZ
+        </div>
+      </div>
+      <!-- Informationsblock -->
+      <div
+        class="w-[75mm] min-h-[40mm] mt-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
+      ></div>
+    </div>
+
+    <!-- Bezugszeichenzeile -->
+    <div
+      class="flex flex-row ml-[25mm] mr-[10mm] mt-[24pt] w-auto bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
+      [ngClass]="{
+        'top-[50mm]': selectedForm === 'B',
+        'top-[32mm]': selectedForm === 'A'
+      }"
+    >
+      <!-- Ihr Zeichen / Ihre Nachricht vom -->
+      <div class="flex flex-col w-[50mm]"></div>
+      <!-- Unser Zeichen / Unsere Nachricht vom -->
+      <div class="flex flex-col w-[50mm]"></div>
+      <!-- Telefon, Name -->
+      <div class="flex flex-col w-[50mm]"></div>
+      <!-- Datum -->
+      <div class="flöex flex-col flex-1">
+        <label for="date" class="text-[8pt] block">Datum</label>
+        <div id="date" name="date">24.04.2025</div>
+      </div>
+    </div>
+
+    <!-- Textfeld -->
+    <div
+      class="ml-[25mm] mr-[20mm] mt-[24pt] mb-[12pt] w-auto flex-1 bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
+    ></div>
+    <!-- Fußzeile -->
+    <div
+      class="mt-[12pt] mb-[24pt] ml-[25mm] mr-[20mm] w-auto h-[48pt] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
+    ></div>
+  </div>
 </div>
