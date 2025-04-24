@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ShellComponent } from '../shell/shell.component';
+import { ShellComponent } from '../../components/shell/shell.component';
 
 @Component({
   selector: 'app-new',
