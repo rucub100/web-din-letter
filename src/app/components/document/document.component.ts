@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { LetterService } from '../../services/letter.service';
 
 @Component({
   selector: 'app-document',
@@ -8,7 +9,18 @@ import { Component, Input } from '@angular/core';
   styleUrl: './document.component.css',
 })
 export class DocumentComponent {
-  @Input() selectedForm: string = 'B';
-  @Input() refLine: boolean = false;
-  @Input() infoBlock: boolean = true;
+  private letterService = inject(LetterService);
+
+  selectedForm = this.letterService.form;
+  refLine = this.letterService.refLine;
+  infoBlock = this.letterService.infoBlock;
+  text = this.letterService.text;
+
+  onTextInput(event: Event) {
+    const target = event.target as HTMLTextAreaElement;
+    if (target.scrollHeight > target.clientHeight) {
+      console.log('TODO: Text area is overflowing');
+    }
+    this.letterService.setText(target.value);
+  }
 }
