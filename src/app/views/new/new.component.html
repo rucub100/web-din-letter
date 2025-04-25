@@ -1,7 +1,7 @@
 <app-shell>
   <app-document
-    [selectedForm]="selectedForm"
-    [infoBlock]="infoBlock"
-    [refLine]="refLine"
+    [selectedForm]="selectedForm()"
+    [infoBlock]="!!infoBlock()"
+    [refLine]="!!refLine()"
   ></app-document>
 </app-shell>

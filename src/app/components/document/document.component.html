@@ -48,12 +48,15 @@
         </div>
       </div>
       <!-- Informationsblock -->
+      @if (infoBlock) {
       <div
         class="w-[75mm] min-h-[40mm] mt-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
       ></div>
+      }
     </div>
 
     <!-- Bezugszeichenzeile -->
+    @if (refLine) {
     <div
       class="flex flex-row ml-[25mm] mr-[10mm] mt-[24pt] w-auto bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
       [ngClass]="{
@@ -73,6 +76,7 @@
         <div id="date" name="date">24.04.2025</div>
       </div>
     </div>
+    }
 
     <!-- Textfeld -->
     <div
