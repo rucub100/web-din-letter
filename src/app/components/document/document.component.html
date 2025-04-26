@@ -2,6 +2,7 @@
   class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)] print:contents!"
 >
   <!-- DIN A4 Sheet -->
+  @let form = selectedForm();
   <div
     class="flex flex-col w-[210mm] h-[297mm] bg-[var(--mat-sys-surface)] print:bg-transparent shadow-[var(--mat-sys-level1)] print:shadow-none text-[12pt] leading-none print:break-after-page print:break-inside-avoid relative"
   >
@@ -21,47 +22,70 @@
     <div
       class="flex flex-row ml-[20mm] gap-[20mm]"
       [ngClass]="{
-        'mt-[45mm]': selectedForm() === 'B',
-        'mt-[27mm]': selectedForm() === 'A'
+        'mt-[45mm]': form === 'B',
+        'mt-[27mm]': form === 'A'
       }"
     >
       <!-- Anschriftfeld -->
+      @let addr = address();
+
       <div
-        class="flex flex-col w-[85mm] h-[45mm] pl-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent rounded-[3mm]"
+        class="flex flex-col w-[85mm] h-[45mm] pl-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent rounded-[3mm] select-none"
       >
         <!-- Rücksendeangabe -->
-        <div class="h-[5mm] text-[8pt] leading-normal">Rücksendeadresse</div>
+        <div class="h-[5mm] text-[8pt] leading-normal">
+          @if(addr.senderDetails) {} @else {
+          <!-- Placeholder -->
+          <span class="opacity-50 print:hidden"
+            >Klaus Fischer • Am Bahnhof 5 • 20095 Hamburg</span
+          >
+          }
+        </div>
         <!-- Zusatz- und Vermerkzone -->
-        <div class="h-[12.7mm]">
-          3. ZVZ <br />
-          2. ZVZ <br />
-          1. ZVZ
+        <div class="h-[12.7mm] flex flex-col-reverse">
+          @if(addr.endorsement) { @for(line of addr.endorsement.split('\n');
+          track line) {
+          <span>{{ line }}</span>
+          } } @else {
+          <!-- Placeholder -->
+          <span class="opacity-50 print:hidden">Einschreiben</span>
+          }
         </div>
         <!-- Anschriftzone -->
-        <div class="h-[12.7mm]">
-          1. AZ <br />
-          2. AZ <br />
-          3. AZ <br />
-          4. AZ <br />
-          5. AZ <br />
-          6. AZ
+        <div class="h-[27.3mm] flex flex-col">
+          @if (addr.recipientDetails) { @for(line of
+          addr.recipientDetails.split('\n'); track line) {
+          <span>{{ line }}</span>
+          } } @else {
+          <!-- Placeholder -->
+          <span class="opacity-50 print:hidden">Musterfirma GmbH</span>
+          <span class="opacity-50 print:hidden">Frau Richterin</span>
+          <span class="opacity-50 print:hidden">Dr. Sabine Meier</span>
+          <span class="opacity-50 print:hidden">Hauptstraße 123</span>
+          <span class="opacity-50 print:hidden">10115 Berlin</span>
+          <!-- <span class="opacity-50 print:hidden">(DEUTSCHLAND)</span> -->
+          }
         </div>
       </div>
       <!-- Informationsblock -->
-      @if (infoBlock() !== undefined) {
+      @let info = infoBlock(); @if (info !== undefined) {
       <div
-        class="w-[75mm] min-h-[40mm] mt-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
-      ></div>
+        class="w-[75mm] min-h-[40mm] mt-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent flex flex-col-reverse"
+      >
+        @for(line of info.split('\n'); track line) {
+        <span>{{ line }}</span>
+        }
+      </div>
       }
     </div>
 
     <!-- Bezugszeichenzeile -->
-    @if (refLine()) {
+    @let ref = refLine(); @if (ref !== undefined) {
     <div
       class="flex flex-row ml-[25mm] mr-[10mm] mt-[24pt] w-auto bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
       [ngClass]="{
-        'top-[50mm]': selectedForm() === 'B',
-        'top-[32mm]': selectedForm() === 'A'
+        'top-[50mm]': form === 'B',
+        'top-[32mm]': form === 'A'
       }"
     >
       <!-- Ihr Zeichen / Ihre Nachricht vom -->
@@ -88,7 +112,6 @@
         class="w-full h-full resize-none overflow-hidden"
         [value]="text()"
         (input)="onTextInput($event)"
-        (keydown)="$event.preventDefault()"
       ></textarea>
     </div>
     <!-- Seitenzahl -->
