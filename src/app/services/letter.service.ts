@@ -1,5 +1,5 @@
 import { computed, Injectable, signal, Signal } from '@angular/core';
-import { DINLetter } from '../models/DINLetter';
+import { DINInfoBlock, DINLetter } from '../models/DINLetter';
 import { DINForm } from '../models/DINForm';
 import { DINRefLine } from '../models/DINRefLine';
 
@@ -49,7 +49,7 @@ export class LetterService {
     }));
   }
 
-  public setInfoBlock(infoBlock: string): void {
+  public setInfoBlock(infoBlock: DINInfoBlock): void {
     this._dinLetter.update((letter) => ({ ...letter, infoBlock }));
   }
 

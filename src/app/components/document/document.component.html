@@ -48,7 +48,7 @@
         </div>
       </div>
       <!-- Informationsblock -->
-      @if (infoBlock()) {
+      @if (infoBlock() !== undefined) {
       <div
         class="w-[75mm] min-h-[40mm] mt-[5mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
       ></div>
@@ -88,6 +88,7 @@
         class="w-full h-full resize-none overflow-hidden"
         [value]="text()"
         (input)="onTextInput($event)"
+        (keydown)="$event.preventDefault()"
       ></textarea>
     </div>
     <!-- Seitenzahl -->

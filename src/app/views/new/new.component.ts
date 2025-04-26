@@ -31,7 +31,7 @@ export class NewComponent {
     if (infoBlock) {
       this.letterService.setInfoBlock('');
     }
-    const refLine = this.route.snapshot.queryParams['form'] === 'true';
+    const refLine = this.route.snapshot.queryParams['refLine'] === 'true';
     if (refLine) {
       this.letterService.setRefLine({
         column1: { label: '', value: '' },

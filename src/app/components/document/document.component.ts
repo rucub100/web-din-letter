@@ -18,9 +18,12 @@ export class DocumentComponent {
 
   onTextInput(event: Event) {
     const target = event.target as HTMLTextAreaElement;
+    const lines = target.value.split('\n');
     if (target.scrollHeight > target.clientHeight) {
       console.log('TODO: Text area is overflowing');
+      this.letterService.setText(lines.slice(0, -2).join('\n'));
+    } else {
+      this.letterService.setText(lines.join('\n'));
     }
-    this.letterService.setText(target.value);
   }
 }
