@@ -1,11 +1,13 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, inject, OnInit, Signal } from '@angular/core';
 
 import { DocumentComponent } from '../../components/document/document.component';
 import { ShellComponent } from '../../components/shell/shell.component';
 import { DINForm, isDINForm } from '../../models/DINForm';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { LetterService } from '../../services/letter.service';
 import { DINRefLine } from '../../models/DINRefLine';
+import { MatDialog } from '@angular/material/dialog';
+import { WizardComponent } from '../../components/wizard/wizard.component';
 
 @Component({
   selector: 'app-new',
@@ -13,9 +15,10 @@ import { DINRefLine } from '../../models/DINRefLine';
   templateUrl: './new.component.html',
   styleUrl: './new.component.css',
 })
-export class NewComponent {
+export class NewComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private letterService = inject(LetterService);
+  private dialog = inject(MatDialog);
 
   selectedForm: Signal<DINForm> = this.letterService.form;
   refLine: Signal<DINRefLine | undefined> = this.letterService.refLine;
@@ -40,5 +43,12 @@ export class NewComponent {
         date: { label: 'Datum', value: new Date().toLocaleDateString() },
       });
     }
+  }
+
+  ngOnInit(): void {
+    this.dialog.open(WizardComponent, {
+      panelClass: 'shadow-[var(--mat-sys-level4)]',
+      disableClose: true,
+    });
   }
 }

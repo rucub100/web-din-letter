@@ -8,11 +8,19 @@
   >
     <!-- Faltmarke 1 -->
     <div
-      class="absolute top-[105mm] left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+      class="absolute left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+      [ngClass]="{
+        'top-[105mm]': form === 'B',
+        'top-[87mm]': form === 'A'
+      }"
     ></div>
     <!-- Faltmarke 2 -->
     <div
-      class="absolute bottom-[87mm] left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+      class="absolute left-[5mm] w-[5mm] h-[0.25mm] bg-[var(--mat-sys-on-surface)]"
+      [ngClass]="{
+        'bottom-[87mm]': form === 'B',
+        'bottom-[105mm]': form === 'A'
+      }"
     ></div>
     <!-- Lochmarke -->
     <div
@@ -106,6 +114,7 @@
     <div
       class="ml-[25mm] mr-[20mm] mt-[24pt] mb-[12pt] w-auto flex-1 bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
     >
+      <!-- TODO: change to div with contenteditable=true for rich text -->
       <textarea
         name="text"
         id="text"
