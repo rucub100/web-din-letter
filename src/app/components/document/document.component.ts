@@ -1,12 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { LetterService } from '../../services/letter.service';
+import { SheetComponent } from './sheet/sheet.component';
 
 @Component({
   selector: 'app-document',
-  imports: [CommonModule],
-  templateUrl: './document.component.html',
-  styleUrl: './document.component.css',
+  imports: [CommonModule, SheetComponent],
+  template: `
+    <div
+      class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)] print:contents!"
+    >
+      <app-sheet
+        [form]="selectedForm()"
+        [address]="address()"
+        [infoBlock]="infoBlock()"
+        [refLine]="refLine()"
+        [text]="text()"
+        (textChanged)="onTextInput($event)"
+      ></app-sheet>
+    </div>
+  `,
 })
 export class DocumentComponent {
   private letterService = inject(LetterService);
@@ -17,17 +30,7 @@ export class DocumentComponent {
   infoBlock = this.letterService.infoBlock;
   text = this.letterService.text;
 
-  onTextInput(event: Event) {
-    const target = event.target as HTMLTextAreaElement;
-    if (target.scrollHeight > target.clientHeight) {
-      console.log('TODO: Text area is overflowing');
-    }
-
-    this.letterService.setText(target.value);
-  }
-
-  onInfoBlockInput(event: Event) {
-    const target = event.target as HTMLTextAreaElement;
-    this.letterService.setInfoBlock(target.value);
+  onTextInput(text: string) {
+    this.letterService.setText(text);
   }
 }

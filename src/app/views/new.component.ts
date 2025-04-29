@@ -1,19 +1,22 @@
 import { Component, inject, OnInit, Signal } from '@angular/core';
 
-import { DocumentComponent } from '../../components/document/document.component';
-import { ShellComponent } from '../../components/shell/shell.component';
-import { DINForm, isDINForm } from '../../models/DINForm';
+import { DocumentComponent } from '../components/document/document.component';
+import { ShellComponent } from '../components/shell.component';
+import { DINForm, isDINForm } from '../models/DINForm';
 import { ActivatedRoute } from '@angular/router';
-import { LetterService } from '../../services/letter.service';
-import { DINRefLine } from '../../models/DINRefLine';
+import { LetterService } from '../services/letter.service';
+import { DINRefLine } from '../models/DINRefLine';
 import { MatDialog } from '@angular/material/dialog';
-import { WizardComponent } from '../../components/wizard/wizard.component';
+import { WizardComponent } from '../components/wizard.component';
 
 @Component({
   selector: 'app-new',
   imports: [ShellComponent, DocumentComponent],
-  templateUrl: './new.component.html',
-  styleUrl: './new.component.css',
+  template: `
+    <app-shell>
+      <app-document></app-document>
+    </app-shell>
+  `,
 })
 export class NewComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -47,7 +50,6 @@ export class NewComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialog.open(WizardComponent, {
-      panelClass: 'shadow-[var(--mat-sys-level4)]',
       disableClose: true,
     });
   }

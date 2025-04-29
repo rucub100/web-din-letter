@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { StartComponent } from './views/start/start.component';
-import { NewComponent } from './views/new/new.component';
+import { StartComponent } from './views/start.component';
+import { NewComponent } from './views/new.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/start', pathMatch: 'full' },
