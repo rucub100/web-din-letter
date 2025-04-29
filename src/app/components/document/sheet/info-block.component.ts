@@ -6,7 +6,7 @@ import { DINInfoBlock } from '../../../models/DINLetter';
   imports: [],
   template: `
     <div
-      class="w-[75mm] min-h-[40mm] bg-[var(--mat-sys-surface-container-low)] print:bg-transparent flex flex-col-reverse"
+      class="w-[75mm] min-h-[40mm] bg-[rgba(127,127,127,0.04)] print:bg-transparent flex flex-col-reverse"
     >
       @for(line of infoBlockLines(); track line) {
       <span>{{ line }}</span>

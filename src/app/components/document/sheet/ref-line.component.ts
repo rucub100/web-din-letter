@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   template: `
     <div
-      class="flex flex-row w-auto bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
+      class="flex flex-row w-auto bg-[rgba(127,127,127,0.04)] print:bg-transparent"
     >
       <!-- Ihr Zeichen / Ihre Nachricht vom -->
       <div class="flex flex-col w-[50mm]"></div>

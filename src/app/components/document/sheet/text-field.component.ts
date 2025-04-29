@@ -4,9 +4,7 @@ import { Component, input, output } from '@angular/core';
   selector: 'app-text-field',
   imports: [],
   template: `
-    <div
-      class="w-full h-full bg-[var(--mat-sys-surface-container-low)] print:bg-transparent"
-    >
+    <div class="w-full h-full bg-[rgba(127,127,127,0.04)] print:bg-transparent">
       <!-- TODO: change to div with contenteditable=true for rich text -->
       <textarea
         name="text"
