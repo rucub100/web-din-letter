@@ -34,22 +34,17 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   template: `
     <h1 mat-dialog-title>Brief Assistent</h1>
     <mat-dialog-content>
-      <mat-stepper orientation="vertical" [linear]="true" #stepper>
+      <mat-stepper orientation="vertical" [linear]="false" #stepper>
         <!-- Address -->
         <mat-step [stepControl]="addressFormGroup">
           <ng-template matStepLabel>Adresse</ng-template>
           <form
             [formGroup]="addressFormGroup"
-            class="flex flex-col min-w-[80mm]"
+            class="flex flex-col min-w-[80mm] mt-2"
           >
             <mat-slide-toggle
+              formControlName="senderDetailsEnabled"
               class="mb-4"
-              [checked]="!addressFormGroup.controls.senderDetails.disabled"
-              (toggleChange)="
-                setSenderDetailsDisabled(
-                  !addressFormGroup.controls.senderDetails.disabled
-                )
-              "
             ></mat-slide-toggle>
             <mat-form-field appearance="outline">
               <mat-label>Rücksendeangabe</mat-label>
@@ -65,13 +60,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
             </mat-form-field>
 
             <mat-slide-toggle
+              formControlName="endorsementEnabled"
               class="my-4"
-              [checked]="!addressFormGroup.controls.endorsement.disabled"
-              (toggleChange)="
-                setEndorsementDisabled(
-                  !addressFormGroup.controls.endorsement.disabled
-                )
-              "
             ></mat-slide-toggle>
             <mat-form-field appearance="outline">
               <mat-label>Zusatz- und Vermerkzone</mat-label>
@@ -98,7 +88,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
           <ng-template matStepLabel>Informationsblock</ng-template>
           <form
             [formGroup]="infoBlockFormGroup"
-            class="flex flex-col min-w-[80mm]"
+            class="flex flex-col min-w-[80mm] mt-2"
           >
             <mat-form-field>
               <textarea
@@ -116,9 +106,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
           <ng-template matStepLabel>Bezugszeichenzeile</ng-template>
           <form
             [formGroup]="refLineFormGroup"
-            class="flex flex-col min-w-[80mm]"
+            class="flex flex-col min-w-[80mm] mt-2"
           >
-            <div class="flex flex-col py-2">
+            <div class="flex flex-col pb-2">
               <mat-form-field appearance="outline">
                 <mat-label>Spalte 1 (Bezeichnung)</mat-label>
                 <input
@@ -132,7 +122,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
                 <input matInput formControlName="column1Value" />
               </mat-form-field>
             </div>
-            <div class="flex flex-col py-2">
+            <div class="flex flex-col pb-2">
               <mat-form-field appearance="outline">
                 <mat-label>Spalte 2 (Bezeichnung)</mat-label>
                 <input
@@ -146,7 +136,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
                 <input matInput formControlName="column2Value" />
               </mat-form-field>
             </div>
-            <div class="flex flex-col py-2">
+            <div class="flex flex-col pb-2">
               <mat-form-field appearance="outline">
                 <mat-label>Spalte 3 (Bezeichnung)</mat-label>
                 <input
@@ -160,7 +150,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
                 <input matInput formControlName="column3Value" />
               </mat-form-field>
             </div>
-            <div class="flex flex-col py-2">
+            <div class="flex flex-col">
               <mat-button-toggle-group
                 formControlName="dateColumn"
                 class="mb-4"
@@ -187,6 +177,59 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
         <!-- Text -->
         <mat-step>
           <ng-template matStepLabel>Text</ng-template>
+          <form
+            [formGroup]="textFormGroup"
+            class="flex flex-col min-w-[80mm] mt-2"
+          >
+            <div class="flex flex-col pb-2">
+              <mat-slide-toggle formControlName="subjectBold" class="mb-4"
+                >Fett</mat-slide-toggle
+              >
+              <mat-form-field appearance="outline">
+                <mat-label>Betreff</mat-label>
+                <input
+                  matInput
+                  formControlName="subject"
+                  placeholder="z.B. Kündigung"
+                />
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Anrede</mat-label>
+              <input
+                matInput
+                formControlName="salutation"
+                placeholder="z.B. Sehr geehrte Damen und Herren,"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Grußformel</mat-label>
+              <input
+                matInput
+                formControlName="closing"
+                placeholder="z.B. Mit freundlichen Grüßen"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Bezeichnung des Unternehmens</mat-label>
+              <input
+                matInput
+                formControlName="company"
+                placeholder="z.B. Müller GmbH"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mb-2">
+              <mat-label>Unterzeichnerangabe</mat-label>
+              <input
+                matInput
+                formControlName="signatory"
+                placeholder="z.B. Stefan Müller"
+              />
+            </mat-form-field>
+            <mat-slide-toggle formControlName="enclosures"
+              >Anlage(n)</mat-slide-toggle
+            >
+          </form>
         </mat-step>
       </mat-stepper>
     </mat-dialog-content>
@@ -205,10 +248,12 @@ export class WizardComponent {
   private _formBuilder = inject(FormBuilder);
 
   addressFormGroup = this._formBuilder.nonNullable.group({
+    senderDetailsEnabled: [true],
     senderDetails: [
       { value: '', disabled: false },
       [Validators.required, Validators.maxLength(60)],
     ],
+    endorsementEnabled: [false],
     endorsement: [{ value: '', disabled: true }, Validators.required],
     recipientDetails: [{ value: '', disabled: false }, Validators.required],
   });
@@ -238,7 +283,37 @@ export class WizardComponent {
     ],
   });
 
+  textFormGroup = this._formBuilder.group({
+    subject: [''],
+    subjectBold: [false],
+    salutation: [''],
+    closing: [''],
+    company: [''],
+    signatory: [''],
+    enclosures: [false],
+  });
+
   constructor() {
+    this.addressFormGroup.controls.senderDetailsEnabled.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value) {
+          this.addressFormGroup.controls.senderDetails.enable();
+        } else {
+          this.addressFormGroup.controls.senderDetails.disable();
+        }
+      });
+
+    this.addressFormGroup.controls.endorsementEnabled.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((value) => {
+        if (value) {
+          this.addressFormGroup.controls.endorsement.enable();
+        } else {
+          this.addressFormGroup.controls.endorsement.disable();
+        }
+      });
+
     this.refLineFormGroup.controls.dateColumn.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {
