@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, TemplateRef } from '@angular/core';
 
 import { DocumentComponent } from '../components/document/document.component';
 import { ShellComponent } from '../components/shell.component';
@@ -7,7 +7,10 @@ import { ActivatedRoute } from '@angular/router';
 import { LetterService } from '../services/letter.service';
 import { DINRefLine } from '../models/DINRefLine';
 import { MatDialog } from '@angular/material/dialog';
-import { WizardComponent } from '../components/wizard.component';
+import {
+  WizardComponent,
+  WizardDialogData,
+} from '../components/wizard.component';
 
 @Component({
   selector: 'app-new',
@@ -51,6 +54,10 @@ export class NewComponent implements OnInit {
   ngOnInit(): void {
     this.dialog.open(WizardComponent, {
       disableClose: true,
+      data: {
+        showInfoBlock: this.infoBlock(),
+        showRefLine: this.refLine(),
+      } as WizardDialogData,
     });
   }
 }

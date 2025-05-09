@@ -7,13 +7,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { getGermanCurrentDate } from '../utils';
+
+export interface WizardDialogData {
+  showInfoBlock?: boolean;
+  showRefLine?: boolean;
+}
 
 @Component({
   selector: 'app-wizard',
@@ -84,6 +90,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
           </form>
         </mat-step>
         <!-- Info block -->
+        @if (data.showInfoBlock) {
         <mat-step>
           <ng-template matStepLabel>Informationsblock</ng-template>
           <form
@@ -101,7 +108,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
             </mat-form-field>
           </form>
         </mat-step>
+        }
         <!-- Ref line -->
+        @if (data.showRefLine) {
         <mat-step>
           <ng-template matStepLabel>Bezugszeichenzeile</ng-template>
           <form
@@ -174,6 +183,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
             </div>
           </form>
         </mat-step>
+        }
         <!-- Text -->
         <mat-step>
           <ng-template matStepLabel>Text</ng-template>
@@ -246,6 +256,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 })
 export class WizardComponent {
   private _formBuilder = inject(FormBuilder);
+
+  data = inject<WizardDialogData>(MAT_DIALOG_DATA);
 
   addressFormGroup = this._formBuilder.nonNullable.group({
     senderDetailsEnabled: [true],
@@ -321,7 +333,7 @@ export class WizardComponent {
           case 'date':
             this.refLineFormGroup.controls.dateLabel.setValue('Datum');
             this.refLineFormGroup.controls.dateValue.setValue(
-              this._getGermanCurrentDate()
+              getGermanCurrentDate()
             );
             this.refLineFormGroup.controls.dateLabel.disable();
             this.refLineFormGroup.controls.dateValue.disable();
@@ -338,28 +350,5 @@ export class WizardComponent {
             this.refLineFormGroup.controls.dateValue.disable();
         }
       });
-  }
-
-  private _getGermanCurrentDate = () =>
-    new Date().toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-
-  setSenderDetailsDisabled(disable: boolean) {
-    if (disable) {
-      this.addressFormGroup.controls.senderDetails.disable();
-    } else {
-      this.addressFormGroup.controls.senderDetails.enable();
-    }
-  }
-
-  setEndorsementDisabled(disable: boolean) {
-    if (disable) {
-      this.addressFormGroup.controls.endorsement.disable();
-    } else {
-      this.addressFormGroup.controls.endorsement.enable();
-    }
   }
 }
