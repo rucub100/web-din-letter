@@ -5,3 +5,7 @@ export function getGermanCurrentDate() {
     year: 'numeric',
   });
 }
+
+export function replaceSenderDetailsDelimiters(senderDetails: string): string {
+  return senderDetails.replaceAll(/-/g, '•');
+}

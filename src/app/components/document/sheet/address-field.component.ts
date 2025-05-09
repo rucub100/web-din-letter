@@ -11,7 +11,9 @@ import { DINAddress } from '../../../models/DINAddress';
       @let currentAddress = address();
       <!-- Rücksendeangabe -->
       <div class="h-[5mm] text-[8pt] leading-normal">
-        @if(currentAddress.senderDetails) {} @else {
+        @if(currentAddress.senderDetails) {
+        <span>{{ currentAddress.senderDetails }}</span>
+        } @else if (!currentAddress.recipientDetails) {
         <!-- Placeholder -->
         <span class="opacity-50 print:hidden"
           >Klaus Fischer • Am Bahnhof 5 • 20095 Hamburg</span
@@ -21,9 +23,9 @@ import { DINAddress } from '../../../models/DINAddress';
       <!-- Zusatz- und Vermerkzone -->
       <div class="h-[12.7mm] flex flex-col-reverse">
         @if(currentAddress.endorsement) { @for(line of
-        currentAddress.endorsement.split(' '); track line) {
+        currentAddress.endorsement.split('\\n'); track line) {
         <span>{{ line }}</span>
-        } } @else {
+        } } @else if (!currentAddress.recipientDetails) {
         <!-- Placeholder -->
         <span class="opacity-50 print:hidden">Einschreiben</span>
         }
@@ -31,7 +33,7 @@ import { DINAddress } from '../../../models/DINAddress';
       <!-- Anschriftzone -->
       <div class="h-[27.3mm] flex flex-col">
         @if (currentAddress.recipientDetails) { @for(line of
-        currentAddress.recipientDetails.split(' '); track line) {
+        currentAddress.recipientDetails.split('\\n'); track line) {
         <span>{{ line }}</span>
         } } @else {
         <!-- Placeholder -->

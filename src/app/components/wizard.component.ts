@@ -7,7 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { getGermanCurrentDate } from '../utils';
+import { DINLetter } from '../models/DINLetter';
 
 export interface WizardDialogData {
   showInfoBlock?: boolean;
@@ -40,7 +45,7 @@ export interface WizardDialogData {
   template: `
     <h1 mat-dialog-title>Brief Assistent</h1>
     <mat-dialog-content>
-      <mat-stepper orientation="vertical" [linear]="false" #stepper>
+      <mat-stepper orientation="vertical" [linear]="true">
         <!-- Address -->
         <mat-step [stepControl]="addressFormGroup">
           <ng-template matStepLabel>Adresse</ng-template>
@@ -62,6 +67,8 @@ export interface WizardDialogData {
               @if
               (addressFormGroup.controls.senderDetails.hasError('maxlength')) {
               <mat-error>Die Zeile ist zu lang</mat-error>
+              } @else {
+              <mat-hint>Trennzeichen: '-'</mat-hint>
               }
             </mat-form-field>
 
@@ -87,11 +94,14 @@ export interface WizardDialogData {
                 formControlName="recipientDetails"
               ></textarea>
             </mat-form-field>
+            <div class="mt-4">
+              <button mat-button matStepperNext>Weiter</button>
+            </div>
           </form>
         </mat-step>
         <!-- Info block -->
         @if (data.showInfoBlock) {
-        <mat-step>
+        <mat-step optional="">
           <ng-template matStepLabel>Informationsblock</ng-template>
           <form
             [formGroup]="infoBlockFormGroup"
@@ -106,12 +116,16 @@ export interface WizardDialogData {
                 placeholder="z.B. Kommunikationszeile und/oder Datum"
               ></textarea>
             </mat-form-field>
+            <div class="mt-4">
+              <button mat-button matStepperPrevious>Zurück</button>
+              <button mat-button matStepperNext>Weiter</button>
+            </div>
           </form>
         </mat-step>
         }
         <!-- Ref line -->
         @if (data.showRefLine) {
-        <mat-step>
+        <mat-step optional>
           <ng-template matStepLabel>Bezugszeichenzeile</ng-template>
           <form
             [formGroup]="refLineFormGroup"
@@ -181,11 +195,15 @@ export interface WizardDialogData {
                 <input matInput formControlName="dateValue" />
               </mat-form-field>
             </div>
+            <div class="mt-4">
+              <button mat-button matStepperPrevious>Zurück</button>
+              <button mat-button matStepperNext>Weiter</button>
+            </div>
           </form>
         </mat-step>
         }
         <!-- Text -->
-        <mat-step>
+        <mat-step optional>
           <ng-template matStepLabel>Text</ng-template>
           <form
             [formGroup]="textFormGroup"
@@ -239,17 +257,21 @@ export interface WizardDialogData {
             <mat-slide-toggle formControlName="enclosures"
               >Anlage(n)</mat-slide-toggle
             >
+            <div class="mt-8">
+              <button mat-button matStepperPrevious>Zurück</button>
+            </div>
           </form>
         </mat-step>
       </mat-stepper>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Abbrechen</button>
-      <button mat-button (click)="stepper.previous()" color="secondary">
-        Zurück
-      </button>
-      <button mat-button (click)="stepper.next()" color="primary">
-        Weiter
+      <button mat-button [mat-dialog-close]>Abbrechen</button>
+      <button
+        mat-button
+        [disabled]="addressFormGroup.invalid"
+        (click)="apply()"
+      >
+        Übernehmen
       </button>
     </mat-dialog-actions>
   `,
@@ -257,7 +279,8 @@ export interface WizardDialogData {
 export class WizardComponent {
   private _formBuilder = inject(FormBuilder);
 
-  data = inject<WizardDialogData>(MAT_DIALOG_DATA);
+  readonly dialogRef = inject(MatDialogRef<WizardComponent>);
+  readonly data = inject<WizardDialogData>(MAT_DIALOG_DATA);
 
   addressFormGroup = this._formBuilder.nonNullable.group({
     senderDetailsEnabled: [true],
@@ -350,5 +373,23 @@ export class WizardComponent {
             this.refLineFormGroup.controls.dateValue.disable();
         }
       });
+  }
+
+  apply() {
+    const result = {
+      address: {
+        senderDetails: this.addressFormGroup.controls.senderDetailsEnabled.value
+          ? this.addressFormGroup.controls.senderDetails.value
+          : undefined,
+        endorsement: this.addressFormGroup.controls.endorsementEnabled.value
+          ? this.addressFormGroup.controls.endorsement.value
+          : undefined,
+        recipientDetails: this.addressFormGroup.controls.recipientDetails.value,
+      },
+    } satisfies Partial<DINLetter>;
+
+    // TODO: add other fields
+
+    this.dialogRef.close(result);
   }
 }

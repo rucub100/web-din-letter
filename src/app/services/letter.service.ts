@@ -10,8 +10,6 @@ export class LetterService {
   private _dinLetter = signal<DINLetter>({
     form: 'B',
     address: {
-      senderDetails: '',
-      endorsement: '',
       recipientDetails: '',
     },
     text: '',
