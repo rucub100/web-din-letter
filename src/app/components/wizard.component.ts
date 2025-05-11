@@ -376,7 +376,7 @@ export class WizardComponent {
   }
 
   apply() {
-    const result = {
+    const result: Partial<Omit<DINLetter, 'form'>> = {
       address: {
         senderDetails: this.addressFormGroup.controls.senderDetailsEnabled.value
           ? this.addressFormGroup.controls.senderDetails.value
@@ -386,10 +386,95 @@ export class WizardComponent {
           : undefined,
         recipientDetails: this.addressFormGroup.controls.recipientDetails.value,
       },
-    } satisfies Partial<DINLetter>;
+    };
 
-    // TODO: add other fields
+    if (this.data.showInfoBlock) {
+      result.infoBlock = this.infoBlockFormGroup.controls.infoBlock.value || '';
+    }
+
+    if (this.data.showRefLine) {
+      result.refLine = {
+        column1: {
+          label: this.refLineFormGroup.controls.column1Label.value || '',
+          value: this.refLineFormGroup.controls.column1Value.value || '',
+        },
+        column2: {
+          label: this.refLineFormGroup.controls.column2Label.value || '',
+          value: this.refLineFormGroup.controls.column2Value.value || '',
+        },
+        column3: {
+          label: this.refLineFormGroup.controls.column3Label.value || '',
+          value: this.refLineFormGroup.controls.column3Value.value || '',
+        },
+        date: {
+          label: this.refLineFormGroup.controls.dateLabel.value || '',
+          value: this.refLineFormGroup.controls.dateValue.value || '',
+        },
+      };
+    }
+
+    const text = this._concatText();
+    if (text) {
+      result.text = text;
+    }
 
     this.dialogRef.close(result);
+  }
+
+  private _concatText(): string {
+    let text = '';
+
+    if (this.textFormGroup.controls.subject.value) {
+      text += this.textFormGroup.controls.subject.value;
+      text += '\n\n\n';
+    } else {
+      text += '[Betreff]';
+      text += '\n\n\n';
+    }
+
+    if (this.textFormGroup.controls.salutation.value) {
+      text += this.textFormGroup.controls.salutation.value;
+      if (!this.textFormGroup.controls.salutation.value.endsWith(',')) {
+        text += ',';
+      }
+      text += '\n\n';
+    } else {
+      text += 'Sehr geehrte Damen und Herren,';
+      text += '\n\n';
+    }
+
+    if (this.textFormGroup.value) {
+      text += '[Text]\n\n';
+    }
+
+    if (this.textFormGroup.controls.closing.value) {
+      text += this.textFormGroup.controls.closing.value;
+      text += '\n\n';
+    } else {
+      text += 'Mit freundlichen Grüßen';
+      text += '\n\n';
+    }
+
+    if (this.textFormGroup.controls.company.value) {
+      text += this.textFormGroup.controls.company.value;
+      text += '\n\n\n\n';
+    } else {
+      text += '[Bezeichnung des Unternehmens]';
+      text += '\n\n\n\n';
+    }
+
+    if (this.textFormGroup.controls.signatory.value) {
+      text += this.textFormGroup.controls.signatory.value;
+      text += '\n\n';
+    } else {
+      text += '[Unterzeichnerangabe(n)]';
+      text += '\n\n';
+    }
+
+    if (this.textFormGroup.controls.enclosures.value) {
+      text += 'Anlage(n)';
+    }
+
+    return text;
   }
 }

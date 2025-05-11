@@ -9,7 +9,7 @@ import { Component, input, output } from '@angular/core';
       <textarea
         name="text"
         id="text"
-        class="w-full h-full resize-none overflow-hidden"
+        class="w-full h-full resize-none overflow-hidden outline-offset-4"
         [value]="text()"
         (input)="onTextInput($event)"
       ></textarea>

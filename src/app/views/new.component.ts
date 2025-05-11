@@ -65,20 +65,43 @@ export class NewComponent implements OnInit {
       .afterClosed()
       .subscribe((result: DINLetter | undefined) => {
         if (result) {
-          if (result.address) {
-            if (result.address.senderDetails) {
-              this.letterService.setSenderDetails(
-                replaceSenderDetailsDelimiters(result.address.senderDetails)
-              );
-            }
-            if (result.address.endorsement) {
-              this.letterService.setEndorsement(result.address.endorsement);
-            }
-            this.letterService.setRecipientDetails(
-              result.address.recipientDetails
-            );
-          }
+          this._applyAddress(result);
+          this._applyInfoBlock(result);
+          this._applyRefLine(result);
+          this._applyText(result);
         }
       });
+  }
+
+  private _applyAddress(result: DINLetter): void {
+    if (result.address) {
+      if (result.address.senderDetails) {
+        this.letterService.setSenderDetails(
+          replaceSenderDetailsDelimiters(result.address.senderDetails)
+        );
+      }
+      if (result.address.endorsement) {
+        this.letterService.setEndorsement(result.address.endorsement);
+      }
+      this.letterService.setRecipientDetails(result.address.recipientDetails);
+    }
+  }
+
+  private _applyInfoBlock(result: DINLetter): void {
+    if (result.infoBlock) {
+      this.letterService.setInfoBlock(result.infoBlock);
+    }
+  }
+
+  private _applyRefLine(result: DINLetter): void {
+    if (result.refLine) {
+      this.letterService.setRefLine(result.refLine);
+    }
+  }
+
+  private _applyText(result: DINLetter): void {
+    if (result.text) {
+      this.letterService.setText(result.text);
+    }
   }
 }

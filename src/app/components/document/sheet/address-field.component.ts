@@ -23,7 +23,7 @@ import { DINAddress } from '../../../models/DINAddress';
       <!-- Zusatz- und Vermerkzone -->
       <div class="h-[12.7mm] flex flex-col-reverse">
         @if(currentAddress.endorsement) { @for(line of
-        currentAddress.endorsement.split('\\n'); track line) {
+        currentAddress.endorsement.split('\\n').reverse(); track line) {
         <span>{{ line }}</span>
         } } @else if (!currentAddress.recipientDetails) {
         <!-- Placeholder -->

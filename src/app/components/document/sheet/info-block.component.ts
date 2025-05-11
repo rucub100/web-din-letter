@@ -8,7 +8,7 @@ import { DINInfoBlock } from '../../../models/DINLetter';
     <div
       class="w-[75mm] min-h-[40mm] bg-[rgba(127,127,127,0.04)] print:bg-transparent flex flex-col-reverse"
     >
-      @for(line of infoBlockLines(); track line) {
+      @for(line of infoBlockLines().reverse(); track line) {
       <span>{{ line }}</span>
       }
     </div>

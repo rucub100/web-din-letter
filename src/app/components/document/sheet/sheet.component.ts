@@ -65,7 +65,10 @@ import { PageNumberingComponent } from './page-numbering.component';
 
       <!-- Bezugszeichenzeile -->
       @if (refLine() !== undefined) {
-      <app-ref-line class="ml-[25mm] mr-[10mm] mt-[24pt]"></app-ref-line>
+      <app-ref-line
+        [refLine]="refLine()!"
+        class="ml-[25mm] mr-[10mm] mt-[24pt]"
+      ></app-ref-line>
       }
 
       <!-- Textfeld -->
