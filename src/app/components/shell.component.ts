@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MenuComponent } from './menu.component';
 
 @Component({
   selector: 'app-shell',
-  imports: [MatSidenavModule],
+  imports: [MatSidenavModule, MenuComponent],
   template: `
     <mat-sidenav-container class="w-full h-full print:contents!">
       <mat-sidenav
@@ -12,9 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         opened
         class="max-w-max print:hidden!"
       >
-        <div>
-          <span class="material-symbols-outlined">menu</span>
-        </div>
+        <app-menu></app-menu>
       </mat-sidenav>
       <mat-sidenav-content class="print:contents!">
         <ng-content></ng-content>
