@@ -12,7 +12,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
         opened
         class="max-w-max print:hidden!"
       >
-        Sidenav
+        <div>
+          <span class="material-symbols-outlined">menu</span>
+        </div>
       </mat-sidenav>
       <mat-sidenav-content class="print:contents!">
         <ng-content></ng-content>

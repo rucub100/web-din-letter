@@ -5,7 +5,12 @@
 html {
   color-scheme: light dark;
   @include mat.theme((color: mat.$violet-palette,
-      typography: Roboto,
+      typography: (plain-family: "Noto Sans",
+        brand-family: "Noto Sans",
+        bold-weight: 900,
+        medium-weight: 600,
+        regular-weight: 400,
+      ),
       density: 0,
     ));
 }
