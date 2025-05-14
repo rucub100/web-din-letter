@@ -20,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { getGermanCurrentDate } from '../utils';
 import { DINLetter } from '../models/DINLetter';
+import { AddressComponent } from './forms/address.component';
 
 export interface WizardDialogData {
   showInfoBlock?: boolean;
@@ -41,6 +42,7 @@ export interface WizardDialogData {
     MatSlideToggleModule,
     MatDividerModule,
     MatButtonToggleModule,
+    AddressComponent,
   ],
   template: `
     <h1 mat-dialog-title>Brief Assistent</h1>
@@ -49,55 +51,7 @@ export interface WizardDialogData {
         <!-- Address -->
         <mat-step [stepControl]="addressFormGroup">
           <ng-template matStepLabel>Adresse</ng-template>
-          <form
-            [formGroup]="addressFormGroup"
-            class="flex flex-col min-w-[80mm] mt-2"
-          >
-            <mat-slide-toggle
-              formControlName="senderDetailsEnabled"
-              class="mb-4"
-            ></mat-slide-toggle>
-            <mat-form-field appearance="outline">
-              <mat-label>Rücksendeangabe</mat-label>
-              <input
-                matInput
-                placeholder="Klaus Fischer • Am Bahnhof 5 • 20095 Hamburg"
-                formControlName="senderDetails"
-              />
-              @if
-              (addressFormGroup.controls.senderDetails.hasError('maxlength')) {
-              <mat-error>Die Zeile ist zu lang</mat-error>
-              } @else {
-              <mat-hint>Trennzeichen: '-'</mat-hint>
-              }
-            </mat-form-field>
-
-            <mat-slide-toggle
-              formControlName="endorsementEnabled"
-              class="my-4"
-            ></mat-slide-toggle>
-            <mat-form-field appearance="outline">
-              <mat-label>Zusatz- und Vermerkzone</mat-label>
-              <textarea
-                matInput
-                [rows]="3"
-                class="resize-none!"
-                formControlName="endorsement"
-              ></textarea>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Anschriftzone</mat-label>
-              <textarea
-                matInput
-                [rows]="6"
-                class="resize-none!"
-                formControlName="recipientDetails"
-              ></textarea>
-            </mat-form-field>
-            <div class="mt-4">
-              <button mat-button matStepperNext>Weiter</button>
-            </div>
-          </form>
+          <app-address [formGroup]="addressFormGroup"></app-address>
         </mat-step>
         <!-- Info block -->
         @if (data.showInfoBlock) {
@@ -329,26 +283,6 @@ export class WizardComponent {
   });
 
   constructor() {
-    this.addressFormGroup.controls.senderDetailsEnabled.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        if (value) {
-          this.addressFormGroup.controls.senderDetails.enable();
-        } else {
-          this.addressFormGroup.controls.senderDetails.disable();
-        }
-      });
-
-    this.addressFormGroup.controls.endorsementEnabled.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        if (value) {
-          this.addressFormGroup.controls.endorsement.enable();
-        } else {
-          this.addressFormGroup.controls.endorsement.disable();
-        }
-      });
-
     this.refLineFormGroup.controls.dateColumn.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((value) => {

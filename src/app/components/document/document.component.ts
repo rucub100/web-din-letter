@@ -8,7 +8,7 @@ import { SheetComponent } from './sheet/sheet.component';
   imports: [CommonModule, SheetComponent],
   template: `
     <div
-      class="w-full h-full flex flex-col items-center justify-center bg-[var(--mat-sys-surface-container)] print:contents!"
+      class="w-full h-full flex flex-col items-center bg-[var(--mat-sys-surface-container)] py-16 overflow-y-auto print:contents!"
     >
       <app-sheet
         [form]="selectedForm()"
