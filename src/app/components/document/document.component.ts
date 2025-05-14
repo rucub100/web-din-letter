@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { LetterService } from '../../services/letter.service';
 import { SheetComponent } from './sheet/sheet.component';
 
@@ -13,6 +13,7 @@ import { SheetComponent } from './sheet/sheet.component';
       <app-sheet
         [form]="selectedForm()"
         [address]="address()"
+        (clickAddress)="editAddress.emit()"
         [infoBlock]="infoBlock()"
         [refLine]="refLine()"
         [text]="text()"
@@ -22,6 +23,8 @@ import { SheetComponent } from './sheet/sheet.component';
   `,
 })
 export class DocumentComponent {
+  editAddress = output();
+
   private letterService = inject(LetterService);
 
   selectedForm = this.letterService.form;

@@ -19,10 +19,7 @@ import { InfoBlockFormGroup } from './form-groups';
           placeholder="z.B. Kommunikationszeile und/oder Datum"
         ></textarea>
       </mat-form-field>
-      <div class="mt-4">
-        <button mat-button matStepperPrevious>Zurück</button>
-        <button mat-button matStepperNext>Weiter</button>
-      </div>
+      <ng-content></ng-content>
     </form>
   `,
   styles: ``,

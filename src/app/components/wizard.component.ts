@@ -48,20 +48,40 @@ export interface WizardDialogData {
         <!-- Address -->
         <mat-step [stepControl]="addressFormGroup">
           <ng-template matStepLabel>Adresse</ng-template>
-          <app-address [formGroup]="addressFormGroup"></app-address>
+          <app-address [formGroup]="addressFormGroup">
+            <div class="mt-4">
+              <button
+                mat-button
+                matStepperNext
+                [disabled]="addressFormGroup.invalid"
+              >
+                Weiter
+              </button>
+            </div>
+          </app-address>
         </mat-step>
         <!-- Info block -->
         @if (data.showInfoBlock) {
         <mat-step optional>
           <ng-template matStepLabel>Informationsblock</ng-template>
-          <app-info-block [formGroup]="infoBlockFormGroup"></app-info-block>
+          <app-info-block [formGroup]="infoBlockFormGroup">
+            <div class="mt-4">
+              <button mat-button matStepperPrevious>Zurück</button>
+              <button mat-button matStepperNext>Weiter</button>
+            </div>
+          </app-info-block>
         </mat-step>
         }
         <!-- Ref line -->
         @if (data.showRefLine) {
         <mat-step optional>
           <ng-template matStepLabel>Bezugszeichenzeile</ng-template>
-          <app-ref-line [formGroup]="refLineFormGroup"></app-ref-line>
+          <app-ref-line [formGroup]="refLineFormGroup">
+            <div class="mt-4">
+              <button mat-button matStepperPrevious>Zurück</button>
+              <button mat-button matStepperNext>Weiter</button>
+            </div>
+          </app-ref-line>
         </mat-step>
         }
         <!-- Text -->

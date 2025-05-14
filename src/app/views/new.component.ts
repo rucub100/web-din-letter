@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, Signal, TemplateRef } from '@angular/core';
+import { Component, effect, inject, Signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { DocumentComponent } from '../components/document/document.component';
 import { ShellComponent } from '../components/shell.component';
@@ -6,24 +7,25 @@ import { DINForm, isDINForm } from '../models/DINForm';
 import { ActivatedRoute } from '@angular/router';
 import { LetterService } from '../services/letter.service';
 import { DINRefLine } from '../models/DINRefLine';
-import { MatDialog } from '@angular/material/dialog';
 import {
   WizardComponent,
   WizardDialogData,
 } from '../components/wizard.component';
 import { DINLetter } from '../models/DINLetter';
 import { getGermanCurrentDate, replaceSenderDetailsDelimiters } from '../utils';
+import { EditAddressComponent } from '../components/dialogs/edit-address.component';
+import { DINAddress } from '../models/DINAddress';
 
 @Component({
   selector: 'app-new',
   imports: [ShellComponent, DocumentComponent],
   template: `
     <app-shell>
-      <app-document></app-document>
+      <app-document (editAddress)="editAddress()"></app-document>
     </app-shell>
   `,
 })
-export class NewComponent implements OnInit {
+export class NewComponent {
   private route = inject(ActivatedRoute);
   private letterService = inject(LetterService);
   private dialog = inject(MatDialog);
@@ -51,9 +53,8 @@ export class NewComponent implements OnInit {
         date: { label: 'Datum', value: getGermanCurrentDate() },
       });
     }
-  }
 
-  ngOnInit(): void {
+    // TODO: run only if there is no existing new letter instance otherwise load the one from the service
     this.dialog
       .open(WizardComponent, {
         disableClose: true,
@@ -65,43 +66,51 @@ export class NewComponent implements OnInit {
       .afterClosed()
       .subscribe((result: DINLetter | undefined) => {
         if (result) {
-          this._applyAddress(result);
-          this._applyInfoBlock(result);
-          this._applyRefLine(result);
-          this._applyText(result);
+          this._applyAddress(result.address);
+          this._applyInfoBlock(result.infoBlock);
+          this._applyRefLine(result.refLine);
+          this._applyText(result.text);
         }
       });
   }
 
-  private _applyAddress(result: DINLetter): void {
-    if (result.address) {
-      if (result.address.senderDetails) {
-        this.letterService.setSenderDetails(
-          replaceSenderDetailsDelimiters(result.address.senderDetails)
-        );
-      }
-      if (result.address.endorsement) {
-        this.letterService.setEndorsement(result.address.endorsement);
-      }
-      this.letterService.setRecipientDetails(result.address.recipientDetails);
+  editAddress(): void {
+    this.dialog
+      .open(EditAddressComponent, {
+        data: this.letterService.address(),
+      })
+      .afterClosed()
+      .subscribe((result: DINAddress | undefined) => {
+        if (result) {
+          this._applyAddress(result);
+        }
+      });
+  }
+
+  private _applyAddress(address: DINAddress): void {
+    if (address) {
+      this.letterService.setSenderDetails(
+        address.senderDetails &&
+          replaceSenderDetailsDelimiters(address.senderDetails)
+      );
+      this.letterService.setEndorsement(address.endorsement);
+      this.letterService.setRecipientDetails(address.recipientDetails);
     }
   }
 
-  private _applyInfoBlock(result: DINLetter): void {
-    if (result.infoBlock) {
-      this.letterService.setInfoBlock(result.infoBlock);
+  private _applyInfoBlock(infoBlock: string | undefined): void {
+    if (infoBlock) {
+      this.letterService.setInfoBlock(infoBlock);
     }
   }
 
-  private _applyRefLine(result: DINLetter): void {
-    if (result.refLine) {
-      this.letterService.setRefLine(result.refLine);
+  private _applyRefLine(refLine: DINRefLine | undefined): void {
+    if (refLine) {
+      this.letterService.setRefLine(refLine);
     }
   }
 
-  private _applyText(result: DINLetter): void {
-    if (result.text) {
-      this.letterService.setText(result.text);
-    }
+  private _applyText(text: string): void {
+    this.letterService.setText(text);
   }
 }

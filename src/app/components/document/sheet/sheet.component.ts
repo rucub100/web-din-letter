@@ -55,7 +55,10 @@ import { PageNumberingComponent } from './page-numbering.component';
         }"
       >
         <!-- Anschriftfeld -->
-        <app-address-field [address]="address()"></app-address-field>
+        <app-address-field
+          [address]="address()"
+          (click)="clickAddress.emit()"
+        ></app-address-field>
         <!-- Informationsblock -->
         <app-info-block
           [infoBlock]="infoBlock()"
@@ -96,5 +99,7 @@ export class SheetComponent {
   refLine = input.required<DINRefLine | undefined>();
   infoBlock = input.required<DINInfoBlock | undefined>();
   text = input.required<string>();
+
+  clickAddress = output();
   textChanged = output<string>();
 }

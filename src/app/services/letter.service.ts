@@ -28,13 +28,13 @@ export class LetterService {
   }
 
   // setters for address fields
-  public setSenderDetails(senderDetails: string): void {
+  public setSenderDetails(senderDetails: string | undefined): void {
     this._dinLetter.update((letter) => ({
       ...letter,
       address: { ...letter.address, senderDetails },
     }));
   }
-  public setEndorsement(endorsement: string): void {
+  public setEndorsement(endorsement: string | undefined): void {
     this._dinLetter.update((letter) => ({
       ...letter,
       address: { ...letter.address, endorsement },

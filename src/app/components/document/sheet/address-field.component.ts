@@ -6,7 +6,7 @@ import { DINAddress } from '../../../models/DINAddress';
   imports: [],
   template: `
     <div
-      class="flex flex-col w-[85mm] h-[45mm] pl-[5mm] bg-[rgba(127,127,127,0.04)] print:bg-transparent rounded-[3mm] select-none"
+      class="flex flex-col w-[85mm] h-[45mm] pl-[5mm] bg-[rgba(127,127,127,0.04)] print:bg-transparent rounded-[3mm] select-none cursor-pointer"
     >
       @let currentAddress = address();
       <!-- Rücksendeangabe -->

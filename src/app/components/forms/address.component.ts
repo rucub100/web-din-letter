@@ -56,9 +56,7 @@ import { AddressFormGroup } from './form-groups';
           formControlName="recipientDetails"
         ></textarea>
       </mat-form-field>
-      <div class="mt-4">
-        <button mat-button matStepperNext>Weiter</button>
-      </div>
+      <ng-content></ng-content>
     </form>
   `,
   styles: ``,
