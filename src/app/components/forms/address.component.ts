@@ -1,24 +1,11 @@
-import {
-  Component,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  OnInit,
-  output,
-} from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { Component, DestroyRef, effect, input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+import { AddressFormGroup } from './form-groups';
 
 @Component({
   selector: 'app-address',
@@ -77,15 +64,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   styles: ``,
 })
 export class AddressComponent {
-  formGroup = input.required<
-    FormGroup<{
-      senderDetailsEnabled: FormControl<boolean>;
-      senderDetails: FormControl<string>;
-      endorsementEnabled: FormControl<boolean>;
-      endorsement: FormControl<string>;
-      recipientDetails: FormControl<string>;
-    }>
-  >();
+  formGroup = input.required<AddressFormGroup>();
 
   constructor(private destroyRef: DestroyRef) {
     effect(() => {

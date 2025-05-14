@@ -12,7 +12,7 @@ import {
   WizardDialogData,
 } from '../components/wizard.component';
 import { DINLetter } from '../models/DINLetter';
-import { replaceSenderDetailsDelimiters } from '../utils';
+import { getGermanCurrentDate, replaceSenderDetailsDelimiters } from '../utils';
 
 @Component({
   selector: 'app-new',
@@ -48,7 +48,7 @@ export class NewComponent implements OnInit {
         column1: { label: '', value: '' },
         column2: { label: '', value: '' },
         column3: { label: '', value: '' },
-        date: { label: 'Datum', value: new Date().toLocaleDateString() },
+        date: { label: 'Datum', value: getGermanCurrentDate() },
       });
     }
   }
