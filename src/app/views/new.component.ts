@@ -15,6 +15,7 @@ import { DINLetter } from '../models/DINLetter';
 import { getGermanCurrentDate, replaceSenderDetailsDelimiters } from '../utils';
 import { EditAddressComponent } from '../components/dialogs/edit-address.component';
 import { DINAddress } from '../models/DINAddress';
+import { PlatformService } from '../services/platform.service';
 
 @Component({
   selector: 'app-new',
@@ -27,8 +28,9 @@ import { DINAddress } from '../models/DINAddress';
 })
 export class NewComponent {
   private route = inject(ActivatedRoute);
-  private letterService = inject(LetterService);
   private dialog = inject(MatDialog);
+  private letterService = inject(LetterService);
+  private platformService = inject(PlatformService);
 
   selectedForm: Signal<DINForm> = this.letterService.form;
   refLine: Signal<DINRefLine | undefined> = this.letterService.refLine;
@@ -36,42 +38,52 @@ export class NewComponent {
 
   constructor() {
     const selectedForm = this.route.snapshot.queryParams['form'];
-    if (isDINForm(selectedForm)) {
+    if (isDINForm(selectedForm) && selectedForm !== this.selectedForm()) {
       this.letterService.setForm(selectedForm);
     }
 
     const infoBlock = this.route.snapshot.queryParams['infoBlock'] === 'true';
-    if (infoBlock) {
+    if (infoBlock && this.infoBlock() === undefined) {
       this.letterService.setInfoBlock('');
+    } else if (!infoBlock && this.infoBlock() !== undefined) {
+      this.letterService.removeInfoBlock();
     }
+
     const refLine = this.route.snapshot.queryParams['refLine'] === 'true';
-    if (refLine) {
+    if (refLine && this.refLine() === undefined) {
       this.letterService.setRefLine({
         column1: { label: '', value: '' },
         column2: { label: '', value: '' },
         column3: { label: '', value: '' },
         date: { label: 'Datum', value: getGermanCurrentDate() },
       });
+    } else if (!refLine && this.refLine() !== undefined) {
+      this.letterService.removeRefLine();
     }
 
-    // TODO: run only if there is no existing new letter instance otherwise load the one from the service
-    this.dialog
-      .open(WizardComponent, {
-        disableClose: true,
-        data: {
-          showInfoBlock: this.infoBlock() !== undefined,
-          showRefLine: this.refLine() !== undefined,
-        } as WizardDialogData,
-      })
-      .afterClosed()
-      .subscribe((result: DINLetter | undefined) => {
-        if (result) {
-          this._applyAddress(result.address);
-          this._applyInfoBlock(result.infoBlock);
-          this._applyRefLine(result.refLine);
-          this._applyText(result.text);
-        }
-      });
+    this.platformService.runInBrowser(() => {
+      const hasRecepientDetails =
+        this.letterService.address().recipientDetails.length > 0;
+      if (!hasRecepientDetails) {
+        this.dialog
+          .open(WizardComponent, {
+            disableClose: true,
+            data: {
+              showInfoBlock: this.infoBlock() !== undefined,
+              showRefLine: this.refLine() !== undefined,
+            } as WizardDialogData,
+          })
+          .afterClosed()
+          .subscribe((result: DINLetter | undefined) => {
+            if (result) {
+              this._applyAddress(result.address);
+              this._applyInfoBlock(result.infoBlock);
+              this._applyRefLine(result.refLine);
+              this._applyText(result.text);
+            }
+          });
+      }
+    });
   }
 
   editAddress(): void {

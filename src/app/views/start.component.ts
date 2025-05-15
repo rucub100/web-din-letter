@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DINForm } from '../models/DINForm';
+import { LetterService } from '../services/letter.service';
 
 @Component({
   selector: 'app-start',
@@ -103,6 +104,7 @@ import { DINForm } from '../models/DINForm';
 })
 export class StartComponent {
   private router = inject(Router);
+  private _letterService = inject(LetterService);
 
   private _selectedForm: DINForm = 'B';
   private _refLine = false;
@@ -153,6 +155,7 @@ export class StartComponent {
   }
 
   newDocument() {
+    this._letterService.reset();
     this.router.navigate(['new'], {
       queryParamsHandling: 'preserve',
     });

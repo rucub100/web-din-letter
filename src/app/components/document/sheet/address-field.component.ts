@@ -10,7 +10,9 @@ import { DINAddress } from '../../../models/DINAddress';
     >
       @let currentAddress = address();
       <!-- Rücksendeangabe -->
-      <div class="h-[5mm] text-[8pt] leading-normal">
+      <div
+        class="flex flex-row flex-nowrap h-[5mm] text-[8pt] leading-normal items-end"
+      >
         @if(currentAddress.senderDetails) {
         <span>{{ currentAddress.senderDetails }}</span>
         } @else if (!currentAddress.recipientDetails) {
