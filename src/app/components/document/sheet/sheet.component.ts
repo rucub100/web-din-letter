@@ -58,11 +58,13 @@ import { PageNumberingComponent } from './page-numbering.component';
         <app-address-field
           [address]="address()"
           (click)="clickAddress.emit()"
+          class="cursor-pointer [&_*]:cursor-pointer"
         ></app-address-field>
         <!-- Informationsblock -->
         <app-info-block
           [infoBlock]="infoBlock()"
-          class="mt-[5mm]"
+          (click)="clickInfoBlock.emit()"
+          class="mt-[5mm] cursor-pointer [&_*]:cursor-pointer"
         ></app-info-block>
       </div>
 
@@ -70,7 +72,8 @@ import { PageNumberingComponent } from './page-numbering.component';
       @if (refLine() !== undefined) {
       <app-ref-line
         [refLine]="refLine()!"
-        class="ml-[25mm] mr-[10mm] mt-[24pt]"
+        (click)="clickRefLine.emit()"
+        class="ml-[25mm] mr-[10mm] mt-[24pt] cursor-pointer [&_*]:cursor-pointer"
       ></app-ref-line>
       }
 
@@ -101,5 +104,7 @@ export class SheetComponent {
   text = input.required<string>();
 
   clickAddress = output();
+  clickInfoBlock = output();
+  clickRefLine = output();
   textChanged = output<string>();
 }

@@ -11,18 +11,24 @@ import {
   WizardComponent,
   WizardDialogData,
 } from '../components/wizard.component';
-import { DINLetter } from '../models/DINLetter';
+import { DINInfoBlock, DINLetter } from '../models/DINLetter';
 import { getGermanCurrentDate, replaceSenderDetailsDelimiters } from '../utils';
 import { EditAddressComponent } from '../components/dialogs/edit-address.component';
 import { DINAddress } from '../models/DINAddress';
 import { PlatformService } from '../services/platform.service';
+import { EditInfoBlockComponent } from '../components/dialogs/edit-info-block.component';
+import { EditRefLineComponent } from '../components/dialogs/edit-ref-line.component';
 
 @Component({
   selector: 'app-new',
   imports: [ShellComponent, DocumentComponent],
   template: `
     <app-shell>
-      <app-document (editAddress)="editAddress()"></app-document>
+      <app-document
+        (editAddress)="editAddress()"
+        (editInfoBlock)="editInfoBlock()"
+        (editRefLine)="editRefLine()"
+      ></app-document>
     </app-shell>
   `,
 })
@@ -95,6 +101,32 @@ export class NewComponent {
       .subscribe((result: DINAddress | undefined) => {
         if (result) {
           this._applyAddress(result);
+        }
+      });
+  }
+
+  editInfoBlock(): void {
+    this.dialog
+      .open(EditInfoBlockComponent, {
+        data: this.infoBlock(),
+      })
+      .afterClosed()
+      .subscribe((result: DINInfoBlock | undefined) => {
+        if (result) {
+          this._applyInfoBlock(result);
+        }
+      });
+  }
+
+  editRefLine(): void {
+    this.dialog
+      .open(EditRefLineComponent, {
+        data: this.refLine(),
+      })
+      .afterClosed()
+      .subscribe((result: DINRefLine | undefined) => {
+        if (result) {
+          this._applyRefLine(result);
         }
       });
   }

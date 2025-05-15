@@ -8,7 +8,6 @@ import {
 
 import { createAddressFormGroup } from '../forms/form-groups';
 import { AddressComponent } from '../forms/address.component';
-import { DINLetter } from '../../models/DINLetter';
 import { DINAddress } from '../../models/DINAddress';
 import { MatButtonModule } from '@angular/material/button';
 

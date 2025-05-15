@@ -41,6 +41,7 @@ export function createInfoBlockFormGroup(
   });
 }
 
+type RefLineDateColumn = 'date' | 'custom' | 'undefined';
 export type RefLineFormGroup = FormGroup<{
   column1Label: FormControl<string>;
   column1Value: FormControl<string>;
@@ -48,7 +49,7 @@ export type RefLineFormGroup = FormGroup<{
   column2Value: FormControl<string>;
   column3Label: FormControl<string>;
   column3Value: FormControl<string>;
-  dateColumn: FormControl<string>;
+  dateColumn: FormControl<RefLineDateColumn>;
   dateLabel: FormControl<string>;
   dateValue: FormControl<string>;
 }>;
@@ -63,7 +64,7 @@ export function createRefLineFormGroup(
     column2Value: [''],
     column3Label: [''],
     column3Value: [''],
-    dateColumn: ['date'],
+    dateColumn: ['date' as RefLineDateColumn],
     dateLabel: [{ value: 'Datum', disabled: true }],
     dateValue: [
       {

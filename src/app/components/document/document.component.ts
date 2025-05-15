@@ -15,7 +15,9 @@ import { SheetComponent } from './sheet/sheet.component';
         [address]="address()"
         (clickAddress)="editAddress.emit()"
         [infoBlock]="infoBlock()"
+        (clickInfoBlock)="editInfoBlock.emit()"
         [refLine]="refLine()"
+        (clickRefLine)="editRefLine.emit()"
         [text]="text()"
         (textChanged)="onTextInput($event)"
       ></app-sheet>
@@ -24,6 +26,8 @@ import { SheetComponent } from './sheet/sheet.component';
 })
 export class DocumentComponent {
   editAddress = output();
+  editInfoBlock = output();
+  editRefLine = output();
 
   private letterService = inject(LetterService);
 
