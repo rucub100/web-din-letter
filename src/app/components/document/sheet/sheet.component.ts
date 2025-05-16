@@ -81,7 +81,7 @@ import { PageNumberingComponent } from './page-numbering.component';
       <app-text-field
         [text]="text()"
         (textChanged)="textChanged.emit($event)"
-        class="ml-[25mm] mr-[20mm] mt-[24pt] mb-[12pt] flex-1"
+        class="ml-[25mm] mr-[20mm] mt-[24pt] mb-[12pt] flex-1 overflow-hidden resize-none"
       ></app-text-field>
       <!-- Seitenzahl -->
       <app-page-numbering class="ml-[25mm] mr-[20mm]"></app-page-numbering>

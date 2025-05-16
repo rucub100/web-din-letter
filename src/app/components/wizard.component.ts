@@ -217,11 +217,17 @@ export class WizardComponent {
   private _concatText(): string {
     let text = '';
 
+    const formatSubject = (content: string) =>
+      this.textFormGroup.controls.subjectBold.value
+        ? `<strong>${content}</strong>`
+        : content;
     if (this.textFormGroup.controls.subject.value) {
-      text += `<div>${this.textFormGroup.controls.subject.value}</div>`;
+      text += `<div>${formatSubject(
+        this.textFormGroup.controls.subject.value
+      )}</div>`;
       text += '<div><br></div><div><br></div>';
     } else {
-      text += '<div><strong>[Betreff]</strong></div>';
+      text += `<div>${formatSubject('[Betreff]')}</div>`;
       text += '<div><br></div><div><br></div>';
     }
 
@@ -261,10 +267,10 @@ export class WizardComponent {
       text += '<div><br></div>';
     } else {
       text += '<div>[Unterzeichnerangabe(n)]</div>';
-      text += '<div><br></div>';
     }
 
     if (this.textFormGroup.controls.enclosures.value) {
+      text += '<div><br></div>';
       text += '<div>Anlage(n)</div>';
     }
 
