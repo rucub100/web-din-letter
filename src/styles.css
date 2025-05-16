@@ -5,7 +5,7 @@
     font-family: "Noto Sans";
     font-style: normal;
     font-weight: 400;
-    src: url(/fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf) format('truetype');
+    src: url(assets/fonts/NotoSans/NotoSans-VariableFont_wdth,wght.ttf) format('truetype');
 }
 
 /* Fix compatibility issues (tailwindcss + material design) for form-field with outline appearance */
@@ -40,19 +40,19 @@ body {
 @font-face {
     font-family: 'Material Symbols Outlined';
     font-style: normal;
-    src: url(/fonts/MaterialSymbols/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].woff2) format('woff2');
+    src: url(assets/fonts/MaterialSymbols/MaterialSymbolsOutlined[FILL,GRAD,opsz,wght].woff2) format('woff2');
 }
 
 @font-face {
     font-family: 'Material Symbols Rounded';
     font-style: normal;
-    src: url(/fonts/MaterialSymbols/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].woff2) format('woff2');
+    src: url(assets/fonts/MaterialSymbols/MaterialSymbolsRounded[FILL,GRAD,opsz,wght].woff2) format('woff2');
 }
 
 @font-face {
     font-family: 'Material Symbols Sharp';
     font-style: normal;
-    src: url(/fonts/MaterialSymbols/MaterialSymbolsSharp[FILL,GRAD,opsz,wght].woff2) format('woff2');
+    src: url(assets/fonts/MaterialSymbols/MaterialSymbolsSharp[FILL,GRAD,opsz,wght].woff2) format('woff2');
 }
 
 .material-symbols-outlined {
