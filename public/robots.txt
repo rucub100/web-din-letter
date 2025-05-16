@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rucub100.github.io/web-din-letter/sitemap.xml
