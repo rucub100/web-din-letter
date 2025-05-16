@@ -3,7 +3,6 @@ import { StartComponent } from './views/start.component';
 import { NewComponent } from './views/new.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/start', pathMatch: 'full' },
-  { path: 'start', component: StartComponent },
+  { path: '', component: StartComponent },
   { path: 'new', component: NewComponent },
 ];

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:github": "ng build --configuration production --prerender --base-href /web-din-letter/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:web-din-letter": "node dist/web-din-letter/server/server.mjs"
