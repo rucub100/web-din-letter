@@ -218,11 +218,11 @@ export class WizardComponent {
     let text = '';
 
     if (this.textFormGroup.controls.subject.value) {
-      text += this.textFormGroup.controls.subject.value;
-      text += '\n\n\n';
+      text += `<div>${this.textFormGroup.controls.subject.value}</div>`;
+      text += '<div><br></div><div><br></div>';
     } else {
-      text += '[Betreff]';
-      text += '\n\n\n';
+      text += '<div><strong>[Betreff]</strong></div>';
+      text += '<div><br></div><div><br></div>';
     }
 
     if (this.textFormGroup.controls.salutation.value) {
@@ -230,42 +230,42 @@ export class WizardComponent {
       if (!this.textFormGroup.controls.salutation.value.endsWith(',')) {
         text += ',';
       }
-      text += '\n\n';
+      text += '<div><br></div>';
     } else {
-      text += 'Sehr geehrte Damen und Herren,';
-      text += '\n\n';
+      text += '<div>Sehr geehrte Damen und Herren,</div>';
+      text += '<div><br></div>';
     }
 
     if (this.textFormGroup.value) {
-      text += '[Text]\n\n';
+      text += '<div>[Text]</div><div><br></div>';
     }
 
     if (this.textFormGroup.controls.closing.value) {
       text += this.textFormGroup.controls.closing.value;
-      text += '\n\n';
+      text += '<div><br></div>';
     } else {
-      text += 'Mit freundlichen Grüßen';
-      text += '\n\n';
+      text += '<div>Mit freundlichen Grüßen</div>';
+      text += '<div><br></div>';
     }
 
     if (this.textFormGroup.controls.company.value) {
       text += this.textFormGroup.controls.company.value;
-      text += '\n\n\n\n';
+      text += '<div><br></div><div><br></div>';
     } else {
-      text += '[Bezeichnung des Unternehmens]';
-      text += '\n\n\n\n';
+      text += '<div>[Bezeichnung des Unternehmens]</div>';
+      text += '<div><br></div><div><br></div>';
     }
 
     if (this.textFormGroup.controls.signatory.value) {
       text += this.textFormGroup.controls.signatory.value;
-      text += '\n\n';
+      text += '<div><br></div>';
     } else {
-      text += '[Unterzeichnerangabe(n)]';
-      text += '\n\n';
+      text += '<div>[Unterzeichnerangabe(n)]</div>';
+      text += '<div><br></div>';
     }
 
     if (this.textFormGroup.controls.enclosures.value) {
-      text += 'Anlage(n)';
+      text += '<div>Anlage(n)</div>';
     }
 
     return text;
