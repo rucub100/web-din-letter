@@ -19,8 +19,12 @@ export class LetterService {
   private readonly _defaultLetter: DINLetter = {
     form: 'B',
     address: {
+      senderDetails: undefined,
+      endorsement: undefined,
       recipientDetails: '',
     },
+    infoBlock: undefined,
+    refLine: undefined,
     text: '',
   };
 
@@ -82,7 +86,7 @@ export class LetterService {
   public removeInfoBlock(): void {
     this._dinLetter.update((letter) => {
       const { infoBlock, ...rest } = letter;
-      return rest;
+      return { ...rest, infoBlock: undefined };
     });
   }
 
@@ -93,7 +97,7 @@ export class LetterService {
   public removeRefLine(): void {
     this._dinLetter.update((letter) => {
       const { refLine, ...rest } = letter;
-      return rest;
+      return { ...rest, refLine: undefined };
     });
   }
 

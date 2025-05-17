@@ -61,11 +61,13 @@ import { PageNumberingComponent } from './page-numbering.component';
           class="cursor-pointer [&_*]:cursor-pointer"
         ></app-address-field>
         <!-- Informationsblock -->
+        @if (infoBlock() !== undefined) {
         <app-info-block
-          [infoBlock]="infoBlock()"
+          [infoBlock]="infoBlock()!"
           (click)="clickInfoBlock.emit()"
           class="mt-[5mm] cursor-pointer [&_*]:cursor-pointer"
         ></app-info-block>
+        }
       </div>
 
       <!-- Bezugszeichenzeile -->

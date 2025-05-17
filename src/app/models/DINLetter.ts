@@ -7,8 +7,8 @@ export type DINInfoBlock = string;
 export type DINLetter = {
   form: DINForm;
   address: DINAddress;
-  infoBlock?: DINInfoBlock;
-  refLine?: DINRefLine;
+  infoBlock: DINInfoBlock | undefined;
+  refLine: DINRefLine | undefined;
   // we may want to split this into subject, salutation, body, closing (with signature), Enclosure(s) and CC
   // TODO: multiple pages
   text: string;

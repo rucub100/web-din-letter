@@ -18,6 +18,7 @@ import { DINAddress } from '../models/DINAddress';
 import { PlatformService } from '../services/platform.service';
 import { EditInfoBlockComponent } from '../components/dialogs/edit-info-block.component';
 import { EditRefLineComponent } from '../components/dialogs/edit-ref-line.component';
+import { info } from 'node:console';
 
 @Component({
   selector: 'app-new',
@@ -40,7 +41,7 @@ export class NewComponent {
 
   selectedForm: Signal<DINForm> = this.letterService.form;
   refLine: Signal<DINRefLine | undefined> = this.letterService.refLine;
-  infoBlock: Signal<string | undefined> = this.letterService.infoBlock;
+  infoBlock: Signal<DINInfoBlock | undefined> = this.letterService.infoBlock;
 
   constructor() {
     const selectedForm = this.route.snapshot.queryParams['form'];
@@ -99,7 +100,7 @@ export class NewComponent {
       })
       .afterClosed()
       .subscribe((result: DINAddress | undefined) => {
-        if (result) {
+        if (result !== undefined) {
           this._applyAddress(result);
         }
       });
@@ -112,9 +113,7 @@ export class NewComponent {
       })
       .afterClosed()
       .subscribe((result: DINInfoBlock | undefined) => {
-        if (result) {
-          this._applyInfoBlock(result);
-        }
+        this._applyInfoBlock(result);
       });
   }
 
@@ -125,9 +124,7 @@ export class NewComponent {
       })
       .afterClosed()
       .subscribe((result: DINRefLine | undefined) => {
-        if (result) {
-          this._applyRefLine(result);
-        }
+        this._applyRefLine(result);
       });
   }
 
@@ -142,8 +139,8 @@ export class NewComponent {
     }
   }
 
-  private _applyInfoBlock(infoBlock: string | undefined): void {
-    if (infoBlock) {
+  private _applyInfoBlock(infoBlock: DINInfoBlock | undefined): void {
+    if (infoBlock !== undefined) {
       this.letterService.setInfoBlock(infoBlock);
     }
   }

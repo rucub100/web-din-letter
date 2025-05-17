@@ -1,9 +1,9 @@
 export type DINAddress = {
   // return address
-  senderDetails?: string;
+  senderDetails: string | undefined;
   // endorsement area / optional endorsement line
   // up to 3 lines, reverse vertical line direction
-  endorsement?: string;
+  endorsement: string | undefined;
   // address zone / recipient address area
   // up to 6 lines:
   // 1. name of the company

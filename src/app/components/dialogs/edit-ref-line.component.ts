@@ -45,9 +45,11 @@ export class EditRefLineComponent {
     if (this.data) {
       const dateLabel = this.data.date.label;
       const dateValue = this.data.date.value;
-      const dateColumn =
+      const dateColumn: typeof this.refLineFormGroup.controls.dateColumn.value =
         dateLabel === 'Datum' && dateValue === getGermanCurrentDate()
           ? 'date'
+          : dateLabel === '' && dateValue === ''
+          ? 'undefined'
           : 'custom';
 
       this.refLineFormGroup.setValue({
@@ -63,8 +65,8 @@ export class EditRefLineComponent {
       });
 
       if (dateColumn === 'custom') {
-        this.refLineFormGroup.controls.dateLabel.disable();
-        this.refLineFormGroup.controls.dateValue.disable();
+        this.refLineFormGroup.controls.dateLabel.enable();
+        this.refLineFormGroup.controls.dateValue.enable();
       }
     }
   }

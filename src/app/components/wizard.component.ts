@@ -23,8 +23,8 @@ import {
 import { DINLetter } from '../models/DINLetter';
 
 export interface WizardDialogData {
-  showInfoBlock?: boolean;
-  showRefLine?: boolean;
+  showInfoBlock: boolean;
+  showRefLine: boolean;
 }
 
 @Component({
